@@ -1,3 +1,4 @@
+'use strict';
 module.exports.checkAuth = async (ability, action, obj) => {
     if (Array.isArray(obj)) {
         let rc = true;
