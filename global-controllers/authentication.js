@@ -14,7 +14,7 @@ class AuthController {
 
         this.router.post('/auth', this.authenticate);
         this.router.post('/logout', this.logout);
-        this.router.use(/^\/(api\/.+|logs)$/, this.checkAuthorization);
+        this.router.use('/*', this.checkAuthorization);
 
         this.cookieOptions = {
             expires: new Date(Date.now() + 9999999),
@@ -43,17 +43,13 @@ class AuthController {
     }
 
     async checkAuthorization(req, res, next) {
-        try {
-            if ((req.session === undefined || req.session.userId === undefined) &&
-                !req.cookies[AUTH_COOKIE]) throw '';
-            const userId = req.session.userId || req.cookies[AUTH_COOKIE];
-            const user = await this.service.read(userId);
-            if (!user) throw '';
-            req.userId = userId;
-            next();
-        } catch (e) {
-            return next(this.service.errors.unauthorized);
-        }
+        if ((req.session === undefined || req.session.userId === undefined) &&
+            !req.cookies[AUTH_COOKIE]) return next();
+        const userId = req.session.userId || req.cookies[AUTH_COOKIE];
+        const user = await this.service.read(userId);
+        if (!user) return next();
+        req.userId = userId;
+        next();
     }
 }
 module.exports = (userService) => {

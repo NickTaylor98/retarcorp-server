@@ -39,10 +39,11 @@ module.exports = (db) => {
     const logService = new LogService(db.logs, errors);
 
     //controllers
-    const apiController = require('./controllers/api')(userService, reportService, taskService, timetableService);
+    const staticFilesController = require('./global-controllers/static-files')(errors);
+    const {log, readLogs} = require('./global-controllers/logger')(logService);
+    const apiController = require('./controllers/api')(userService, reportService, taskService, timetableService, readLogs);
     const authenticationController = require('./global-controllers/authentication')(userService);
     const authorizationController = require('./global-controllers/authorization')(userService);
-    const {log, readLogs} = require('./global-controllers/logger')(logService);
     const errorController = require('./global-controllers/errors');
     //Mounting
 

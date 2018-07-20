@@ -7,7 +7,7 @@ class AuthorizationController {
         this.router = express.Router();
 
         this.ability = this.ability.bind(this);
-        this.router.use(this.ability);
+        this.router.use('/api', this.ability);
 
         this.roles = {
             'admin' : this.setAdminPriviliges,
@@ -52,6 +52,7 @@ class AuthorizationController {
     async ability(req, res, next) {
         const {rules,can,cannot} = AbilityBuilder.extract();
         const {userId} = req;
+        if (!userId) return next(this.service.errors.unauthorized);
         const {Role} = await this.service.read(userId);
         this.roles[Role](parseInt(userId), can, cannot);
         req.ability = new Ability(rules);

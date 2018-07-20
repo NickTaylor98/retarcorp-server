@@ -1,9 +1,11 @@
 const express = require('express');
+
 module.exports = (
     userService,
     reportService,
     taskService,
-    timetableService
+    timetableService,
+    readLogs
 ) => {
     const router = express.Router();
 
@@ -11,8 +13,8 @@ module.exports = (
     const reportController = require('./reports')(reportService);
     const taskController = require('./tasks')(taskService);
     const timetableController = require('./timetables')(timetableService);
-
     
+    router.use('/logs', readLogs);
     router.use('/users', userController);
     router.use('/timetables', timetableController);
     router.use('/tasks', taskController);
