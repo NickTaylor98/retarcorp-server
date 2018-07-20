@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const uuid = require('uuid/v4');
+
+
 const errors = require('./helpers/errors');
 //services
 
@@ -66,12 +68,16 @@ module.exports = (db) => {
         saveUninitialized: false
     }));
 
+    
+    app.use(express.static('public/css'));
+    app.use(express.static('public/js'));
+
     app.use(log);
     app.use(authenticationController);
     app.use(authorizationController);
-    app.get('/logs', readLogs);
     app.use('/api', apiController);
+    app.use(staticFilesController);
     app.use(errorController);
-
+    
     return app;
 };
