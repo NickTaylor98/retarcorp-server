@@ -15,11 +15,6 @@ module.exports = {
         code: 'entity_not_found',
         status: 404
     },
-    accessDenied: {
-        message: 'Access denied',
-        code: 'access_denied',
-        status: 403
-    },
     invalidData: {
         message: 'Invalid data',
         code: 'invalid_data',
@@ -29,10 +24,5 @@ module.exports = {
         message: 'Invalid params',
         code: 'invalid_params',
         status: 400
-    },
-    alreadyExists : {
-        message : 'Already exists. To create new timetable you should update existing one',
-        code : 'already_exists',
-        status : 400
     }
 }
