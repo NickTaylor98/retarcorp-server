@@ -53,9 +53,11 @@ module.exports = (db) => {
     app.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
         res.header('Access-Control-Allow-Credentials', true);
+        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        if (req.method === 'OPTIONS') return res.send();
         next();
     });
-    //app.use(cors()); 
     app.use(cookieParser());
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
