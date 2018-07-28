@@ -6,11 +6,19 @@ class ReportService extends CrudService {
     }
     async readAllByLogin(login) {
         const user = await this.userService.readByLogin(login);
-        return await user.getReports();
+        return await user.getReports({
+            order: [
+                ['id', 'DESC']
+            ]
+        });
     }
     async readAllByUserID(userID) {
         const user = await this.userService.read(userID);
-        return await user.getReports();
+        return await user.getReports({
+            order: [
+                ['id', 'DESC']
+            ]
+        });
     }
     async create(data) {
         data.userId = parseInt(data.userId);

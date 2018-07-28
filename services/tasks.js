@@ -4,13 +4,25 @@ class TaskService extends CrudService {
         super(repository, errors);
         this.userService = userService;
     }
+
+    async getTasks(user)  {
+        const tasks =  await user.getTasks();
+        for (let task of tasks) {
+            const users = await task.getUsers();
+            task.dataValues.Users = [];
+            for (user of users){
+                task.dataValues.Users.push(user.Login);
+            }
+        }
+        return tasks;
+    } 
     async readAllByUserID(userID) {
         const user = await this.userService.read(userID);
-        return await user.getTasks();
+        return await this.getTasks(user);
     }
     async readAllByLogin(login) {
         const user = await this.userService.readByLogin(login);
-        return await user.getTasks();
+        return await this.getTasks(user);
     }
     async read (id) {
         const task = await super.read(id);

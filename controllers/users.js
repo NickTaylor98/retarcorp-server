@@ -36,6 +36,7 @@ class UserController extends CrudController {
         
         req.params.id = userId;
         req.body.Login = user.Login;
+        req.body.Role = user.Role;
         req.body.Password = await hash(req.body.newPassword);
         return super.update(req, res);
     }

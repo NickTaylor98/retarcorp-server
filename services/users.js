@@ -8,6 +8,16 @@ class UserService extends CrudService {
         if (!user && check) throw this.errors.notFound;
         return user;
     }
+    async read(id, check = true){
+        let user;
+        try{
+             user = await super.read(id);
+        } catch(e) {
+            if (!check) user = null;
+            else throw e;
+        }
+        return user;
+    }
 }
 
 module.exports = UserService;

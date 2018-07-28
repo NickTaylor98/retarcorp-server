@@ -6,11 +6,19 @@ class TimeTableService extends CrudService {
     }
     async readAllByUserID(userID) {
         const user = await this.userService.read(userID);
-        return await user.getTimetables();
+        return await user.getTimetables({
+            order: [
+                ['id', 'DESC']
+            ]
+        });
     }
     async readAllByLogin(login) {
         const user = await this.userService.readByLogin(login);
-        return await user.getTimetables();
+        return await user.getTimetables({
+            order: [
+                ['id', 'DESC']
+            ]
+        });
     }
 
 }

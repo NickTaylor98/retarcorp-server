@@ -46,7 +46,7 @@ class AuthController {
         if ((req.session === undefined || req.session.userId === undefined) &&
             !req.cookies[AUTH_COOKIE]) return next();
         const userId = req.session.userId || req.cookies[AUTH_COOKIE];
-        const user = await this.service.read(userId);
+        const user = await this.service.read(userId, false);
         if (!user) return next();
         req.userId = userId;
         next();

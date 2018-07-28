@@ -29,6 +29,7 @@ class TaskController extends CrudController {
     async create (req, res) {
         const result = await checkAuth(req.ability, 'create', 'tasks');
         if (!result) throw this.service.errors.unauthorized;
+        req.body.Users = JSON.parse(req.body.Users);
         return super.create(req, res);
     }
     async update(req, res) {
