@@ -11,12 +11,18 @@ class UserController extends CrudController {
                 { method: 'put', cb: this.update},
                 { method: 'delete',  cb: this.delete }
             ],
-            '/:id': [
+            '/:login': [
                 { method: 'get',  cb: this.read},
             ]
         };
         this.registerRoutes();
     }
+    async read(req, res) {
+        const {login} = req.params;
+        const user = await this.service.readByLogin(login);
+        res.json(user);
+    }
+
     async create(req, res) {
         req.body.constructor.modelName = 'users'; // doing for checking abilities
         const result = await checkAuth(req.ability, 'create', req.body);
